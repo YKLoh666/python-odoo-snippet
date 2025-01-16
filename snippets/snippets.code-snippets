@@ -1,1 +1,86 @@
-{}
+{
+  "Odoo Model": {
+    "prefix": ["o-model"],
+    "body": "from dateutil import relativedelta\nfrom odoo import _, models, fields, api\nfrom odoo.exceptions import ValidationError, UserError\n\nclass ${TM_FILENAME_BASE/(.*)/${1:/pascalcase}/}(models.Model):\n    _name = '${TM_FILENAME_BASE/[\\_]/\\./g}'\n    _description = '${TM_FILENAME_BASE/[\\_]/\\./g}'\n    _order = 'id'\n    _sql_constraints = []\n\n    name = fields.Char(\n        string='Name',\n        required=True\n    )\n    description = fields.Text(\n        string='Description'\n    )\n    "
+  },
+  "Odoo Copy Inherited Model": {
+    "prefix": ["o-copy-model"],
+    "body": "from dateutil import relativedelta\nfrom odoo import _, models, fields, api\nfrom odoo.exceptions import ValidationError, UserError\n\nclass ${TM_FILENAME_BASE/(.*)/${1:/pascalcase}/}(models.Model):\n    _name = '${TM_FILENAME_BASE/[\\_]/\\./g}'\n    _description = '${TM_FILENAME_BASE/[\\_]/\\./g}'\n    _inherit = '${1:inherit.model}'\n    _order = 'id'\n    _sql_constraints = []\n\n    name = fields.Char(\n        string='Name',\n        required=True\n    )\n    description = fields.Text(\n        string='Description'\n    )\n    "
+  },
+  "Odoo Extend Inherited Model": {
+    "prefix": ["o-extend-model"],
+    "body": "from dateutil import relativedelta\nfrom odoo import _, models, fields, api\nfrom odoo.exceptions import ValidationError, UserError\n\nclass ${TM_FILENAME_BASE/(.*)/${1:/pascalcase}/}(models.Model):\n    _inherit = '${1:inherit.model}'\n\n    "
+  },
+  "Odoo Char Field": {
+    "prefix": ["o-char-field"],
+    "body": "${1:field_name} = fields.Char(\n    string='${2:field_name}',\n    required=${3|True,False|},\n    readonly=${4|True,False|},\n    copy=${5|True,False|},\n    help='${6:Help message...}'\n)\n"
+  },
+  "Odoo Text Field": {
+    "prefix": ["o-text-field"],
+    "body": "${1:field_name} = fields.Text(\n    string='${2:field_name}',\n    required=${3|True,False|},\n    readonly=${4|True,False|},\n    copy=${5|True,False|},\n    help='${6:Help message...}'\n)\n"
+  },
+  "Odoo Integer Field": {
+    "prefix": ["o-integer-field"],
+    "body": "${1:field_name} = fields.Integer(\n    string='${2:field_name}',\n    required=${3|True,False|},\n    readonly=${4|True,False|},\n    copy=${5|True,False|},\n    help='${6:Help message...}'\n)\n"
+  },
+  "Odoo Float Field": {
+    "prefix": ["o-float-field"],
+    "body": "${1:field_name} = fields.Float(\n    string='${2:field_name}',\n    required=${3|True,False|},\n    readonly=${4|True,False|},\n    copy=${5|True,False|},\n    help='${6:Help message...}'\n)\n"
+  },
+  "Odoo Boolean Field": {
+    "prefix": ["o-boolean-field"],
+    "body": "${1:field_name} = fields.Boolean(\n    string='${2:field_name}',\n    required=${3|True,False|},\n    readonly=${4|True,False|},\n    copy=${5|True,False|},\n    help='${6:Help message...}'\n)\n"
+  },
+  "Odoo Date Field": {
+    "prefix": ["o-date-field"],
+    "body": "${1:field_name} = fields.Date(\n    string='${2:field_name}',\n    required=${3|True,False|},\n    readonly=${4|True,False|},\n    copy=${5|True,False|},\n    help='${6:Help message...}'\n)\n"
+  },
+  "Odoo Date Time Field": {
+    "prefix": ["o-date-time-field"],
+    "body": "${1:field_name} = fields.Datetime(\n    string='${2:field_name}',\n    required=${3|True,False|},\n    readonly=${4|True,False|},\n    copy=${5|True,False|},\n    help='${6:Help message...}'\n)\n"
+  },
+  "Odoo Selection Field": {
+    "prefix": ["o-selection-field"],
+    "body": "${1:field_name} = fields.Selection(\n    string='${2:field_name}',\n    required=${3|True,False|},\n    selection=[('${4:value}', '${5:Label}')],\n    default='${4:value}',\n    readonly=${6|True,False|},\n    copy=${7|True,False|},\n    help='${8:Help message...}'\n)\n"
+  },
+  "Odoo Extended Selection Field": {
+    "prefix": ["o-xtended-selection-field"],
+    "body": "${1:field_name} = fields.Selection(\n    string='${2:field_name}',\n    required=${3|True,False|},\n    selection_add=[('${4:value}', '${5:Label}')],\n    default='${4:value}',\n    readonly=${6|True,False|},\n    copy=${7|True,False|},\n    help='${8:Help message...}'\n)\n"
+  },
+  "Odoo Binary Field": {
+    "prefix": ["o-binary-field"],
+    "body": "${1:field_name} = fields.Binary(\n    string='${2:field_name}',\n    required=${3|True,False|},\n    readonly=${4|True,False|},\n    copy=${5|True,False|},\n    help='${6:Help message...}'\n)\n"
+  },
+  "Odoo HTML Field": {
+    "prefix": ["o-html-field"],
+    "body": "${1:field_name} = fields.Html(\n    string='${2:field_name}',\n    required=${3|True,False|},\n    readonly=${4|True,False|},\n    copy=${5|True,False|},\n    help='${6:Help message...}'\n)\n"
+  },
+  "Odoo Related Field": {
+    "prefix": ["o-related-field"],
+    "body": "${1:field_name} = fields.Related(\n    string='${1:field_name}',\n    related='${2:field_id}.${1:field_name}'\n    help='${6:Help message...}'\n)\n"
+  },
+  "Odoo Monetary Field": {
+    "prefix": ["o-monetary-field"],
+    "body": "${1:field_name} = fields.Monetary(\n    string='${2:field_name}',\n    required=${3|True,False|},\n    default=0.0,\n    readonly=${4|True,False|},\n    copy=${5|True,False|},\n    help='${6:Help message...}'\n)\n"
+  },
+  "Odoo Currency Id": {
+    "prefix": ["o-currency-id"],
+    "body": "currency_id = fields.Many2one(\n    comodel_name='res.currency',\n    default=lambda self: self.env.company.currency_id,\n    required=${3|True,False|},\n    readonly=${4|True,False|},\n    copy=${5|True,False|},\n    help='${6:Help message...}'\n)\n"
+  },
+  "Odoo Many2one Field": {
+    "prefix": ["o-many2one-field"],
+    "body": "${1:field_name} = fields.Many2one(\n    string='${2:field_name}',\n    comodel_name='${3:table.name}',\n    default=${4:default_value},\n    ondelete='${5|restrict,cascade,set null|}',\n    domain=[${6:('field', '=', 'value')}],\n    required=${7|True,False|},\n    readonly=${8|True,False|},\n    copy=${9|True,False|},\n    help='${10:Help message...}'\n)\n"
+  },
+  "Odoo One2many Field": {
+    "prefix": ["o-one2many-field"],
+    "body": "${1:field_name} = fields.One2many(\n    string='${2:field_name}',\n    comodel_name='${3:table.name}',\n    inverse_name='${4:field_name}',\n    readonly=${5|True,False|},\n    help='${6:Help message...}'\n)\n"
+  },
+  "Odoo Many2many Field": {
+    "prefix": ["o-many2many-field"],
+    "body": "${1:field_name} = fields.Many2many(\n    string='${2:field_name}',\n    comodel_name='${3:table.name}',\n    relation='${4:table_name}',\n    column1='${5:field_name}',\n    column2='${6:field_name}',\n    readonly=${7|True,False|},\n    help='${8:Help message...}'\n)\n"
+  },
+  "Odoo Computed Field": {
+    "prefix": ["o-computed-field"],
+    "body": "${1:field_name} = fields.${2:Char}(\n    string='${3:field_name}',\n    compute='_compute_${1:field_name}',\n    inverse='_inverse_${1:field_name}',\n    store=False,\n    help='${4:Help message...}'\n)\n@api.depends('${5:field_name}')\ndef _compute_${1:field_name}(self):\n    for record in self:\n        ${6:record.${1:field_name} = value}\n\ndef _inverse_${1:field_name}(self):\n    for record in self:\n        ${7:record.field_name = value}\n"
+  }
+}
