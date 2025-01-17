@@ -10,13 +10,7 @@ Quickly create Odoo data dictionary model using commonly used snippets.
 
 > You can use acronyms to quickly find the snippet you are looking for.
 >
-> For example, to find the `odoo-char-field` snippet, you can type `ocf` and press `Tab`.
-
-### Miscellaneous
-
-- `odoo-display-name` - Create a new Display Name field
-- `odoo-default-function` - Create a new Default Function
-- `odoo-server-action` - Create a new server action
+> For example, to find the `odoo-char-field` snippet, you can type `ocf` and press `Tab`
 
 ## Release Notes
 
