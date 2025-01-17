@@ -2,6 +2,9 @@
   "name": "python-odoo-snippet",
   "displayName": "python-odoo-snippet",
   "description": "python snippets for odoo application",
+  "repository": "https://github.com/YKLoh666/python-odoo-snippet",
+  "readme": "README.md",
+  "license": "MIT",
   "version": "0.0.1",
   "engines": {
     "vscode": "^1.96.0"
