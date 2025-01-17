@@ -1,13 +1,13 @@
 {
   "Odoo Model": {
     "prefix": ["odoo-model"],
-    "body": "from dateutil import relativedelta\nfrom odoo import _, models, fields, api\nfrom odoo.exceptions import ValidationError, UserError\n\nclass ${TM_FILENAME_BASE/(.*)/${1:/pascalcase}/}(models.Model):\n    _name = '${TM_FILENAME_BASE/[\\_]/\\./g}'\n    _description = '${TM_FILENAME_BASE/[\\_]/\\./g}'\n    _order = 'id'\n    _sql_constraints = []\n\n    name = fields.Char(\n        string='Name',\n        required=True\n    )\n    description = fields.Text(\n        string='Description'\n    )\n    ",
+    "body": "from dateutil import relativedelta\nfrom odoo import _, models, fields, api\nfrom odoo.exceptions import ValidationError, UserError\n\nclass ${TM_FILENAME_BASE/(.*)/${1:/pascalcase}/}(models.Model):\n    _name = '${TM_FILENAME_BASE/[\\_]/./g}'\n    _description = '${TM_FILENAME_BASE/[\\_]/./g}'\n    _order = '${2:id}'\n    _sql_constraints = [${3:('chk_${4:field_name}', '${5:SQL_CONSTRAINT}', '${6:Error Message}')}]\n\n    name = fields.Char(\n        string='Name',\n        required=True\n    )\n    description = fields.Text(\n        string='Description'\n    )\n    ",
     "isFileTemplate": true,
     "description": "Initialize the Odoo model file"
   },
   "Odoo Copy Inherited Model": {
     "prefix": ["odoo-copy-model"],
-    "body": "from dateutil import relativedelta\nfrom odoo import _, models, fields, api\nfrom odoo.exceptions import ValidationError, UserError\n\nclass ${TM_FILENAME_BASE/(.*)/${1:/pascalcase}/}(models.Model):\n    _name = '${TM_FILENAME_BASE/[\\_]/\\./g}'\n    _description = '${TM_FILENAME_BASE/[\\_]/\\./g}'\n    _inherit = '${1:inherit.model}'\n    _order = 'id'\n    _sql_constraints = []\n\n    name = fields.Char(\n        string='Name',\n        required=True\n    )\n    description = fields.Text(\n        string='Description'\n    )\n    ",
+    "body": "from dateutil import relativedelta\nfrom odoo import _, models, fields, api\nfrom odoo.exceptions import ValidationError, UserError\n\nclass ${TM_FILENAME_BASE/(.*)/${1:/pascalcase}/}(models.Model):\n    _name = '${TM_FILENAME_BASE/[\\_]/./g}'\n    _description = '${TM_FILENAME_BASE/[\\_]/./g}'\n    _inherit = '${1:inherit.model}'\n    _order = '${2:id}'\n    _sql_constraints = [${3:('chk_${4:field_name}', '${5:SQL_CONSTRAINT}', '${6:Error Message}')}]\n\n    name = fields.Char(\n        string='Name',\n        required=True\n    )\n    description = fields.Text(\n        string='Description'\n    )\n    ",
     "isFileTemplate": true,
     "description": "Initialize the Odoo model file which inherits from another model"
   },
@@ -19,48 +19,53 @@
   },
   "Odoo Char Field": {
     "prefix": ["odoo-char-field"],
-    "body": "${1:field_name} = fields.Char(\n    string='${2:Field Name}',\n    required=${3|True,False|},\n    readonly=${4|True,False|},\n    copy=${5|True,False|},\n    help='${6:Help message...}'\n)\n",
+    "body": "${1:field_name} = fields.Char(\n    string='${2:Field Name}',\n    required=${3|True,False|},\n    ${4:default='${5:default_value}',\n    }readonly=${6|True,False|},\n    copy=${7|True,False|},\n    help='${8:Help message...}'\n)\n",
     "description": "Create a new Char field"
   },
   "Odoo Text Field": {
     "prefix": ["odoo-text-field"],
-    "body": "${1:field_name} = fields.Text(\n    string='${2:Field Name}',\n    required=${3|True,False|},\n    readonly=${4|True,False|},\n    copy=${5|True,False|},\n    help='${6:Help message...}'\n)\n",
+    "body": "${1:field_name} = fields.Text(\n    string='${2:Field Name}',\n    required=${3|True,False|},\n    ${4:default='${5:default_value}',\n    }readonly=${6|True,False|},\n    copy=${7|True,False|},\n    help='${8:Help message...}'\n)\n",
     "description": "Create a new Text field"
   },
   "Odoo Integer Field": {
     "prefix": ["odoo-integer-field"],
-    "body": "${1:field_name} = fields.Integer(\n    string='${2:Field Name}',\n    required=${3|True,False|},\n    readonly=${4|True,False|},\n    copy=${5|True,False|},\n    help='${6:Help message...}'\n)\n",
+    "body": "${1:field_name} = fields.Integer(\n    string='${2:Field Name}',\n    required=${3|True,False|},\n    ${4:default=${5:0},\n    }readonly=${6|True,False|},\n    copy=${7|True,False|},\n    help='${8:Help message...}'\n)\n",
     "description": "Create a new Integer field"
   },
   "Odoo Float Field": {
     "prefix": ["odoo-float-field"],
-    "body": "${1:field_name} = fields.Float(\n    string='${2:Field Name}',\n    required=${3|True,False|},\n    readonly=${4|True,False|},\n    copy=${5|True,False|},\n    help='${6:Help message...}'\n)\n",
+    "body": "${1:field_name} = fields.Float(\n    string='${2:Field Name}',\n    digits=(${3:16},${4:2}),\n    required=${5|True,False|},\n    ${6:default=${7:0.0},\n    }readonly=${8|True,False|},\n    copy=${9|True,False|},\n    help='${10:Help message...}'\n)\n",
     "description": "Create a new Float field"
   },
   "Odoo Boolean Field": {
     "prefix": ["odoo-boolean-field"],
-    "body": "${1:field_name} = fields.Boolean(\n    string='${2:Field Name}',\n    required=${3|True,False|},\n    readonly=${4|True,False|},\n    copy=${5|True,False|},\n    help='${6:Help message...}'\n)\n",
+    "body": "${1:field_name} = fields.Boolean(\n    string='${2:Field Name}',\n    required=${3|True,False|},\n    ${4:default=${5|True,False|},\n    }readonly=${6|True,False|},\n    copy=${7|True,False|},\n    help='${8:Help message...}'\n)\n",
     "description": "Create a new Boolean field"
   },
   "Odoo Date Field": {
     "prefix": ["odoo-date-field"],
-    "body": "${1:field_name} = fields.Date(\n    string='${2:Field Name}',\n    required=${3|True,False|},\n    readonly=${4|True,False|},\n    copy=${5|True,False|},\n    help='${6:Help message...}'\n)\n",
+    "body": "${1:field_name} = fields.Date(\n    string='${2:Field Name}',\n    required=${3|True,False|},\n    ${4:default=${5:fields.Date.today},\n    }readonly=${6|True,False|},\n    copy=${7|True,False|},\n    help='${8:Help message...}'\n)\n",
     "description": "Create a new Date field"
   },
   "Odoo Date Time Field": {
     "prefix": ["odoo-date-time-field"],
-    "body": "${1:field_name} = fields.Datetime(\n    string='${2:Field Name}',\n    required=${3|True,False|},\n    readonly=${4|True,False|},\n    copy=${5|True,False|},\n    help='${6:Help message...}'\n)\n",
+    "body": "${1:field_name} = fields.Datetime(\n    string='${2:Field Name}',\n    required=${3|True,False|},\n    ${4:default=${5:fields.Datetime.now},\n    }readonly=${6|True,False|},\n    copy=${7|True,False|},\n    help='${8:Help message...}'\n)\n",
     "description": "Create a new Date Time field"
   },
   "Odoo Selection Field": {
     "prefix": ["odoo-selection-field"],
-    "body": "${1:field_name} = fields.Selection(\n    string='${2:Field Name}',\n    required=${3|True,False|},\n    selection=[('${4:value}', '${5:Label}')],\n    default='${4:value}',\n    readonly=${6|True,False|},\n    copy=${7|True,False|},\n    help='${8:Help message...}'\n)\n",
+    "body": "${1:field_name} = fields.Selection(\n    string='${2:Field Name}',\n    required=${3|True,False|},\n    selection=[('${4:value}', '${5:Label}')${6:}],\n    ${7:default='${4:value}',\n    }readonly=${8|True,False|},\n    copy=${9|True,False|},\n    help='${10:Help message...}'\n)\n",
     "description": "Create a new Selection field"
   },
   "Odoo Extended Selection Field": {
     "prefix": ["odoo-xtended-selection-field"],
-    "body": "${1:field_name} = fields.Selection(\n    string='${2:Field Name}',\n    required=${3|True,False|},\n    selection_add=[('${4:value}', '${5:Label}')],\n    default='${4:value}',\n    readonly=${6|True,False|},\n    copy=${7|True,False|},\n    help='${8:Help message...}'\n)\n",
+    "body": "${1:field_name} = fields.Selection(\n    string='${2:Field Name}',\n    required=${3|True,False|},\n    selection_add=[('${4:value}', '${5:Label}')${6:}],\n    ${7:default='${4:value}',\n    }readonly=${8|True,False|},\n    copy=${9|True,False|},\n    help='${10:Help message...}'\n)\n",
     "description": "Create a new Extended Selection field"
+  },
+  "Odoo Monetary Field": {
+    "prefix": ["odoo-monetary-field"],
+    "body": "${1:field_name} = fields.Monetary(\n    string='${2:Field Name}',\n    required=${3|True,False|},\n    ${4:default=${5:0.0},\n    }readonly=${6|True,False|},\n    copy=${7|True,False|},\n    help='${8:Help message...}'\n)\n",
+    "description": "Create a new Monetary field"
   },
   "Odoo Binary Field": {
     "prefix": ["odoo-binary-field"],
@@ -74,13 +79,8 @@
   },
   "Odoo Related Field": {
     "prefix": ["odoo-related-field"],
-    "body": "${1:field_name} = fields.Related(\n    string='${2:field_name}',\n    related='${3:field_id}.${1:field_name}'\n    store='${4|False, True|}'\n    depends='[${5:'dependent_field'}]'\n    help='${6:Help message...}'\n)\n",
+    "body": "${1:field_name} = fields.${2:field_type}(\n    string='${3:field_name}',\n    related='${4:field_id}.${1:field_name}',\n    store=${5|False, True|},\n    ${6:depends=[${7:'dependent_field'}]},\n    help='${8:Help message...}'\n)\n",
     "description": "Create a new Related field"
-  },
-  "Odoo Monetary Field": {
-    "prefix": ["odoo-monetary-field"],
-    "body": "${1:field_name} = fields.Monetary(\n    string='${2:Field Name}',\n    required=${3|True,False|},\n    default=0.0,\n    readonly=${4|True,False|},\n    copy=${5|True,False|},\n    help='${6:Help message...}'\n)\n",
-    "description": "Create a new Monetary field"
   },
   "Odoo Currency Id": {
     "prefix": ["odoo-currency-id"],

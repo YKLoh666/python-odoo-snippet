@@ -1,9 +1,17 @@
-# Change Log
+## [V1] - 2025-JAN-17
 
-All notable changes to the "python-odoo-snippet" extension will be documented in this file.
+- **Version 1.0.0**
 
-Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
+  - Initial Release
 
-## [Unreleased]
+- **Version 1.0.1 [UNRELEASE]**
 
-- Initial release
+  - Update more tab stops to `odoo-model` related snippets
+
+  - Update `odoo-*-field` snippets with `default=` attribute
+
+  - Update `odoo-float-field` with `digits=` attribute
+
+  - Fix incorrect `odoo-related-field` snippet
+
+  - Added snippets list

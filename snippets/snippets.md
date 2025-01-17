@@ -1,15 +1,72 @@
-# Odoo Snippets
+## Table of Contents
 
-## Create a new model
+- [Model Initialization](#model-initialization)
+  - [`odoo-model`](#odoo-model)
+  - [`odoo-copy-model`](#odoo-copy-model)
+  - [`odoo-extend-model`](#odoo-extend-model)
+- [Field Definitions](#field-definitions)
+  - [`odoo-char-field`](#odoo-char-field)
+  - [`odoo-text-field`](#odoo-text-field)
+  - [`odoo-integer-field`](#odoo-integer-field)
+  - [`odoo-float-field`](#odoo-float-field)
+  - [`odoo-boolean-field`](#odoo-boolean-field)
+  - [`odoo-date-field`](#odoo-date-field)
+  - [`odoo-datetime-field`](#odoo-datetime-field)
+  - [`odoo-selection-field`](#odoo-selection-field)
+  - [`odoo-xtended-selection-field`](#odoo-xtended-selection-field)
+  - [`odoo-monetary-field`](#odoo-monetary-field)
+  - [`odoo-binary-field`](#odoo-binary-field)
+  - [`odoo-html-field`](#odoo-html-field)
+  - [`odoo-related-field`](#odoo-related-field)
+  - [`odoo-currency-id`](#odoo-currency-id)
+  - [`odoo-many2one-field`](#odoo-many2one-field)
+  - [`odoo-one2many-field`](#odoo-one2many-field)
+  - [`odoo-many2many-field`](#odoo-many2many-field)
+  - [`odoo-computed-field`](#odoo-computed-field)
+- [API Methods](#api-methods)
+  - [`odoo-api-model`](#odoo-api-model)
+  - [`odoo-api-onchange`](#odoo-api-onchange)
+  - [`odoo-api-constraint`](#odoo-api-constraint)
+  - [`odoo-api-depends`](#odoo-api-depends)
+  - [`odoo-api-depends-context`](#odoo-api-depends-context)
+  - [`odoo-api-ondelete`](#odoo-api-ondelete)
+- [Error Handling](#error-handling)
+  - [`odoo-raise-user-error`](#odoo-raise-user-error)
+  - [`odoo-raise-validation-error`](#odoo-raise-validation-error)
+- [Record Operations](#record-operations)
+  - [`odoo-create-record`](#odoo-create-record)
+  - [`odoo-override-create-record`](#odoo-override-create-record)
+  - [`odoo-write-record`](#odoo-write-record)
+  - [`odoo-override-write-record`](#odoo-override-write-record)
+  - [`odoo-copy-record`](#odoo-copy-record)
+  - [`odoo-override-copy-record`](#odoo-override-copy-record)
+  - [`odoo-unlink-record`](#odoo-unlink-record)
+  - [`odoo-override-unlink-record`](#odoo-override-unlink-record)
+  - [`odoo-browse-record`](#odoo-browse-record)
+  - [`odoo-read-record`](#odoo-read-record)
+  - [`odoo-search-record`](#odoo-search-record)
+  - [`odoo-search-count-record`](#odoo-search-count-record)
+  - [`odoo-read-group-record`](#odoo-read-group-record)
+  - [`odoo-aggregate-read-group-record`](#odoo-aggregate-read-group-record)
+- [Miscellaneous](#miscellaneous)
+  - [`odoo-display-name`](#odoo-display-name)
+  - [`odoo-default-function`](#odoo-default-function)
+  - [`odoo-server-action`](#odoo-server-action)
+
+### Model Initialization
+
+#### `odoo-model`
 
 ```python
 from dateutil import relativedelta
 from odoo import _, models, fields, api
 from odoo.exceptions import ValidationError, UserError
 
-class MyModel(models.Model):
-    _name = 'my.model'
-    _description = 'My Model'
+class LibraryTestBook(models.Model):
+    _name = 'library.test.book'
+    _description = 'library.test.book'
+    _order = 'id'
+    _sql_constraints = [('chk_field_name', 'SQL_CONSTRAINT', 'Error Message')]
 
     name = fields.Char(
         string='Name',
@@ -20,406 +77,495 @@ class MyModel(models.Model):
     )
 ```
 
-## All metadata
-
-### Normal Model
+#### `odoo-copy-model`
 
 ```python
-    _name = 'model.name'
-    _description = 'Description'
-    _order = 'field_name'
-    _sql_constraints = [
-        ('field_name_unique', 'UNIQUE(field_name)', 'Error message')
-    ]
-```
+from dateutil import relativedelta
+from odoo import _, models, fields, api
+from odoo.exceptions import ValidationError, UserError
 
-### Copy Inherited Model
+class LibraryTestBook(models.Model):
+    _name = 'library.test.book'
+    _description = 'library.test.book'
+    _inherit = 'inherit.model'
+    _order = 'id'
+    _sql_constraints = [('chk_field_name', 'SQL_CONSTRAINT', 'Error Message')]
 
-```python
-    _name = 'model2.name'
-    _description = 'Description'
-    _inherit = 'model.name'
-    _order = 'field_name'
-    _sql_constraints = [
-        ('field_name_unique', 'UNIQUE(field_name)', 'Error message')
-    ]
-```
-
-### Extend Inherited Model
-
-```python
-    _inherit = 'model.name'
-    _description = 'Description'
-    _order = 'field_name'
-    _sql_constraints = [
-        ('field_name_unique', 'UNIQUE(field_name)', 'Error message')
-    ]
-```
-
-## All fields types
-
-```python
-    # Basic fields
-    char = fields.Char(
-        string='label',
-        required=False,
-        default='Default',
-        readonly=False,
-        copy=True,
-        help='Help message here.'
+    name = fields.Char(
+        string='Name',
+        required=True
     )
-    text = fields.Text(
-        string='label',
-        required=False,
-        default='Default',
-        readonly=False,
-        copy=True,
-        help='Help message here.'
+    description = fields.Text(
+        string='Description'
     )
-    integer = fields.Integer(
-        string='label',
-        required=False,
+```
+
+#### `odoo-extend-model`
+
+```python
+from dateutil import relativedelta
+from odoo import _, models, fields, api
+from odoo.exceptions import ValidationError, UserError
+
+class LibraryTestBook(models.Model):
+    _inherit = 'inherit.model'
+```
+
+### Field Definitions
+
+#### `odoo-char-field`
+
+```python
+    field_name = fields.Char(
+        string='Field Name',
+        required=True,
+        default='default_value',
+        readonly=True,
+        copy=True,
+        help='Help message...'
+    )
+```
+
+#### `odoo-text-field`
+
+```python
+    field_name = fields.Text(
+        string='Field Name',
+        required=True,
+        default='default_value',
+        readonly=True,
+        copy=True,
+        help='Help message...'
+    )
+```
+
+#### `odoo-integer-field`
+
+```python
+    field_name = fields.Integer(
+        string='Field Name',
+        required=True,
         default=0,
-        readonly=False,
+        readonly=True,
         copy=True,
-        help='Help message here.'
+        help='Help message...'
     )
-    float_val = fields.Float(
-        string='label',
-        required=False,
+```
+
+#### `odoo-float-field`
+
+```python
+   field_name = fields.Float(
+        string='Field Name',
+        digits=(16,2),
+        required=True,
         default=0.0,
-        readonly=False,
+        readonly=True,
         copy=True,
-        help='Help message here.'
+        help='Help message...'
     )
-    boolean = fields.Boolean(
-        string='label',
-        required=False,
-        default=False,
-        readonly=False,
+```
+
+#### `odoo-boolean-field`
+
+```python
+    field_name = fields.Boolean(
+        string='Field Name',
+        required=True,
+        default=True,
+        readonly=True,
         copy=True,
-        help='Help message here.'
+        help='Help message...'
     )
-    date = fields.Date(
-        string='label',
-        required=False,
+```
+
+#### `odoo-date-field`
+
+```python
+    field_name = fields.Date(
+        string='Field Name',
+        required=True,
         default=fields.Date.today,
-        readonly=False,
+        readonly=True,
         copy=True,
-        help='Help message here.'
+        help='Help message...'
     )
-    datetime = fields.Datetime(
-        string='label',
-        required=False,
+```
+
+#### `odoo-datetime-field`
+
+```python
+    field_name = fields.Datetime(
+        string='Field Name',
+        required=True,
         default=fields.Datetime.now,
-        readonly=False,
+        readonly=True,
         copy=True,
-        help='Help message here.'
+        help='Help message...'
     )
-    selection = fields.Selection(
-        string='label',
-        required=False,
+```
+
+#### `odoo-selection-field`
+
+```python
+    field_name = fields.Selection(
+        string='Field Name',
+        required=True,
         selection=[('value', 'Label')],
         default='value',
-        readonly=False,
+        readonly=True,
         copy=True,
-        help='Help message here.'
+        help='Help message...'
     )
-    extended_selection = fields.Selection(
-        string='label',
-        required=False,
+```
+
+#### `odoo-xtended-selection-field`
+
+```python
+    field_name = fields.Selection(
+        string='Field Name',
+        required=True,
         selection_add=[('value', 'Label')],
         default='value',
-        readonly=False,
+        readonly=True,
         copy=True,
-        help='Help message here.'
+        help='Help message...'
     )
-    binary = fields.Binary(
-        string='label',
-        required=False,
-        readonly=False,
-        copy=True,
-        help='Help message here.'
-    )
-    html = fields.Html(
-        string='label',
-        required=False,
-        readonly=False,
-        copy=True,
-        help='Help message here.'
-    )
-    related = fields.Related(
-        string='label',
-        related='field_name.subfield_name',
-    )
-    monetary = fields.Monetary(
-        string='label',
-        required=False,
-        default=0.0,
-        readonly=False,
-        copy=True,
-        help='Help message here.'
-    )
+```
 
-    # Relational fields
-    many2one = fields.Many2one(
-        string='label',
+#### `odoo-monetary-field`
+
+```python
+field_name = fields.Monetary(
+        string='Field Name',
+        required=True,
+        default=0.0,
+        readonly=True,
+        copy=True,
+        help='Help message...'
+    )
+```
+
+#### `odoo-binary-field`
+
+```python
+    field_name = fields.Binary(
+        string='Field Name',
+        required=True,
+        readonly=True,
+        copy=True,
+        help='Help message...'
+    )
+```
+
+#### `odoo-html-field`
+
+```python
+    field_name = fields.Html(
+        string='Field Name',
+        required=True,
+        readonly=True,
+        copy=True,
+        help='Help message...'
+    )
+```
+
+#### `odoo-related-field`
+
+```python
+    field_name = fields.Char(
+        string='field_name',
+        related='field_id.field_name',
+        store=False,
+        depends=['dependent_field'],
+        help='Help message...'
+    )
+```
+
+#### `odoo-currency-id`
+
+```python
+    currency_id = fields.Many2one(
+        comodel_name='res.currency',
+        default=lambda self: self.env.company.currency_id,
+        required=True,
+        readonly=True,
+        copy=True,
+        help='Help message...'
+    )
+```
+
+#### `odoo-many2one-field`
+
+```python
+    field_name = fields.Many2one(
+        string='Field Name',
         comodel_name='table.name',
-        default=1,
+        default=default_value,
         ondelete='restrict',
         domain=[('field', '=', 'value')],
-        required=False,
-        readonly=False,
+        required=True,
+        readonly=True,
         copy=True,
-        help='Help message here.'
+        help='Help message...'
     )
-    one2many = fields.One2many(
-        string='label',
+```
+
+#### `odoo-one2many-field`
+
+```python
+    field_name = fields.One2many(
+        string='Field Name',
         comodel_name='table.name',
         inverse_name='field_name',
-        readonly=False,
-        help='Help message here.'
+        readonly=True,
+        help='Help message...'
     )
-    many2many = fields.Many2many(
-        string='label',
+```
+
+#### `odoo-many2many-field`
+
+```python
+    field_name = fields.Many2many(
+        string='Field Name',
         comodel_name='table.name',
         relation='table_name',
         column1='field_name',
         column2='field_name',
-        readonly=False,
-        help='Help message here.'
+        readonly=True,
+        help='Help message...'
     )
+```
 
-    # Computed fields
-    computed_field = fields.Char(
-        string='label',
-        compute='_compute_field',
-        inverse='_inverse_field',
-        store=False,
-        help='Help message here.'
-    )
+#### `odoo-computed-field`
 
-    @api.depends('field_name')
-    def _compute_computed_field(self):
-        for record in self:
-            record.computed_field = 'value'
-
-    def _inverse_computed_field(self):
-        for record in self:
-            record.field_name = 'value'
-
-    # Related fields
-    related_field = fields.Char(
-        string='label',
-        related='field_name.subfield_name',
-        store=False,
-        depends=['dependent_field'],
-        help='Help message here.'
-    )
-
-    # Custom display name
-    def _compute_display_name(self):
-        for record in self:
-            record.display_name = 'value'
-
-    # Default values
+```python
     field_name = fields.Char(
-        string='label',
-        default=lambda self: self._default_field_name(),
-        help='Help message here.'
+        string='Field Name',
+        compute='_compute_field_name',
+        inverse='_inverse_field_name',
+        store=False,
+        help='Help message...'
     )
 
-    def _default_field_name(self):
-        for record in self:
-            record.field_name = 'value'
+@api.depends('field_name')
+def _compute_field_name(self):
+    for record in self:
+        record.field_name = value
 
-    # Hierarchical fields
-    _parent_store = True
-    _parent_name = 'parent_id'
-    parent_id = fields.Many2one(
-        string='label',
-        comodel_name='table.name',
-        ondelete='restrict',
-        index=True,
-        help='Help message here.'
-    )
-    parent_path = fields.Char(
-        index=True,
-    )
-    child_ids = fields.One2many(
-        string='label',
-        comodel_name='table.name',
-        inverse_name='parent_id',
-        help='Help message here.'
-    )
-
-    @api.constrains('parent_id')
-    def _check_hierarchy(self):
-        if not self._check_recursion():
-            raise ValidationError(_('Error! The record cannot create recursive hierarchy.'))
+def _inverse_field_name(self):
+    for record in self:
+        record.field_name = value
 ```
 
-## Method Decorators
+### API Methods
+
+#### `odoo-api-model`
 
 ```python
-    @api.model
-    def method_name(self):
-        for record in self:
-            pass
-
-    @api.onchange('field_name')
-    def _onchange_field_name(self):
-        for record in self:
-            pass
-
-    @api.constrains('field_name')
-    def _check_field_name(self):
-        for record in self:
-            if condition:
-                raise ValidationError(_('Error message'))
-
-    @api.depends('dependency_field')
-    def _compute_field_name(self):
-        for record in self:
-            pass
-
-    @api.depends_context('key')
-    def _compute_field_name(self):
-        for record in self:
-            pass
-
-    @api.ondelete(at_uninstall=False)
-    def _unlink_if_condition(self):
-        for record in self:
-            if condition:
-                raise UserError(_('Error message'))
+@api.model
+def method_name(self, arg):
+    for record in self:
+        pass
 ```
 
-## CRUD Methods
+#### `odoo-api-onchange`
 
 ```python
-
-    rec = Model.create({
-        'field_name': 'value'
-    })
-
-    def create(self, vals):
-        record = super(MyModel, self).create(vals)
-        return record
-
-    rec.write({
-        'field_name': 'value'
-    })
-
-    def write(self, vals):
-        res = super(MyModel, self).write(vals)
-        return res
-
-    result = rec.unlink()
-
-    def unlink(self):
-        res = super(MyModel, self).unlink()
-        return res
-
-    result = rec.copy()
-
-    def copy(self, default=None):
-        record = super(MyModel, self).copy(default=default)
-        return record
-
-    result = rec.browse([1])
-
-    result = rec.read(['field_name'])
-
-    result = rec.search([('field_name', '=', 'value')])
-
-    result = rec.search_count([('field_name', '=', 'value')])
-
-    result = rec.read_group(
-        domain=[('field_name', '=', 'value')],
-        fields=['aggregated_field'],
-        groupby=['group_by_field'],
-        offset=0,
-        limit=None,
-        orderby=False,
-        lazy=False
-    )
-
-    result = rec._read_group(
-        domain=[('field_name', '=', 'value')],
-        groupby=['group_by_field'],
-        aggregates=['agg_field:agg_func'],
-        having=[('field_name', '=', 'value')],
-        offset=0,
-        limit=None,
-        order=None
-    )
+@api.onchange('field_name')
+def _onchange_field_name(self):
+    for record in self:
+        pass
 ```
 
-## Inheritance
-
-- Copy Inheritance
+#### `odoo-api-constraint`
 
 ```python
-    _name = 'model2.name'
-    _description = 'Description'
-    _inherit = 'model.name'
-    _order = 'field_name'
-    _sql_constraints = [
-        ('field_name_unique', 'UNIQUE(field_name)', 'Error message')
-    ]
+@api.constrains('field_name')
+def _check_field_name(self):
+    for record in self:
+        pass
 ```
 
-- Extend Inheritance
+#### `odoo-api-depends`
 
 ```python
-    _inherit = 'model.name'
-    _description = 'Description'
-    _order = 'field_name'
-    _sql_constraints = [
-        ('field_name_unique', 'UNIQUE(field_name)', 'Error message')
-    ]
+@api.depends('dependency_field')
+def _compute_field_name(self):
+    for record in self:
+        pass
 ```
 
-````Delegation Inheritance
+#### `odoo-api-depends-context`
 
 ```python
-    _name = 'model2.name'
-    _description = 'Description'
-    _inherits = {'model.name': 'field_name'}
-    _order = 'field_name'
-    _sql_constraints = [
-        ('field_name_unique', 'UNIQUE(field_name)', 'Error message')
-    ]
-
-    field_name = fields.Many2one(
-        comodel_name='model.name',
-        string='label',
-        required=True,
-        ondelete='cascade'
-    )
-````
-
-## Actions
-
-### Server Action
-
-```python
-    def action_name(self):
-        for record in self:
-            pass
+@api.depends_context('dependency_key')
+def _compute_field_name(self):
+    for record in self:
+        pass
 ```
 
-### Client Action
+#### `odoo-api-ondelete`
 
 ```python
-    def action_name(self):
-        return {
-            'type': 'ir.actions.client',
-            'tag': 'action_name',
-            'name': 'Action Name',
-            'context': {
-                'key': 'value'
-            }
-        }
+@api.ondelete(at_uninstall=False)
+def _unlink_if_condition(self):
+    for record in self:
+        pass
+```
+
+### Error Handling
+
+#### `odoo-raise-user-error`
+
+```python
+raise UserError(_('Error message...'))
+```
+
+#### `odoo-raise-validation-error`
+
+```python
+raise ValidationError(_('Error message...'))
+```
+
+### Record Operations
+
+#### `odoo-create-record`
+
+```python
+record_name = self.env['model.name'].create({
+    'field_name': 'value'
+})
+```
+
+#### `odoo-override-create-record`
+
+```python
+def create(self, vals):
+    record = super(LibraryTestBook, self).create(vals)
+    return record
+```
+
+#### `odoo-write-record`
+
+```python
+record_name.write({
+    'field_name': 'value'
+})
+```
+
+#### `odoo-override-write-record`
+
+```python
+def write(self, vals):
+    record = super(LibraryTestBook, self).write(vals)
+    return record
+```
+
+#### `odoo-copy-record`
+
+```python
+record_name.copy({
+    'field_name': 'value'
+})
+```
+
+#### `odoo-override-copy-record`
+
+```python
+def copy(self, default=None):
+    record = super(LibraryTestBook, self).copy(default)
+    return record
+```
+
+#### `odoo-unlink-record`
+
+```python
+record_name.unlink()
+```
+
+#### `odoo-override-unlink-record`
+
+```python
+def unlink(self):
+    record = super(LibraryTestBook, self).unlink()
+    return record
+```
+
+#### `odoo-browse-record`
+
+```python
+result = self.env['model.name'].browse([record_id])
+```
+
+#### `odoo-read-record`
+
+```python
+result = self.env['model.name'].read([field_name])
+```
+
+#### `odoo-search-record`
+
+```python
+result = self.env['model.name'].search([('field_name', '=', 'value')])
+```
+
+#### `odoo-search-count-record`
+
+```python
+result = self.env['model.name'].search_count([('field_name', '=', 'value')])
+```
+
+#### `odoo-read-group-record`
+
+```python
+result = self.env['model.name'].read_group(
+    domain=[('field_name', '=', 'value')],
+    fields=['aggregated_field'],
+    groupby=['group_by_field'],
+    offset=0,
+    limit=None,
+    orderby=False,
+    lazy=False
+)
+```
+
+#### `odoo-aggregate-read-group-record`
+
+```python
+result = self.env['model.name']._read_group(
+    domain=[('field_name', '=', 'value')],
+    groupby=['group_by_field'],
+    aggregates=['agg_field:agg_func'],
+    having=[('field_name', '=', 'value')],
+    offset=0,
+    limit=None,
+    order=None
+)
+```
+
+### Miscellaneous
+
+#### `odoo-display-name`
+
+```python
+def _compute_display_name(self):
+    for record in self:
+        record.display_name = new_value
+```
+
+#### `odoo-default-function`
+
+```python
+def _default_field_name(self):
+    for record in self:
+        record.field_name = default_value
+```
+
+#### `odoo-server-action`
+
+```python
+def method_name(self, arg):
+    for record in self:
+        pass
 ```
