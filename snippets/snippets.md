@@ -218,13 +218,6 @@ class MyModel(models.Model):
     )
 
     # Custom display name
-    display_name = fields.Char(
-        string='label',
-        compute='_compute_display_name',
-        store=True,
-        help='Help message here.'
-    )
-
     def _compute_display_name(self):
         for record in self:
             record.display_name = 'value'
@@ -242,6 +235,7 @@ class MyModel(models.Model):
 
     # Hierarchical fields
     _parent_store = True
+    _parent_name = 'parent_id'
     parent_id = fields.Many2one(
         string='label',
         comodel_name='table.name',
@@ -262,7 +256,7 @@ class MyModel(models.Model):
     @api.constrains('parent_id')
     def _check_hierarchy(self):
         if not self._check_recursion():
-            raise models.ValidationError(_('Error! The record cannot create recursive hierarchy.'))
+            raise ValidationError(_('Error! The record cannot create recursive hierarchy.'))
 ```
 
 ## Method Decorators
@@ -351,7 +345,7 @@ class MyModel(models.Model):
         lazy=False
     )
 
-    result = rec._read_group_process_groupby(
+    result = rec._read_group(
         domain=[('field_name', '=', 'value')],
         groupby=['group_by_field'],
         aggregates=['agg_field:agg_func'],
